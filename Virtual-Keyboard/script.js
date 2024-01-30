@@ -57,3 +57,50 @@ const Keyboard = {
             "space",
         ],
     },
+ 
+    init() {
+        // create and setup main element
+        this.elements.main =
+            document.createElement("div");
+        this.elements.main.classList
+            .add("keyboard", "keyboard--hidden");
+        document.body
+            .appendChild(this.elements.main);
+ 
+        // create and setup child container component
+        this.elements.keysContainer =
+            document.createElement("div");
+        this.elements.keysContainer
+            .classList.add("keyboard__keys");
+        this.elements.main
+            .appendChild(this.elements.keysContainer);
+ 
+        // create and setup key elements
+        this.elements.keysContainer
+            .appendChild(this._createKeys());
+        this.elements.keys =
+            this.elements.keysContainer
+                .querySelectorAll(".keyboard__key");
+ 
+        // open keyboard for elements with .use-keyboard-input
+        this.properties.keyboardInputs =
+            document.querySelectorAll(
+                ".use-keyboard-input"
+            );
+        this.properties
+            .keyboardInputs
+            .forEach((element) => {
+                element.addEventListener("focus", () => {
+                    this
+                        .open(element.value, (currentValue) => {
+                            element.value = currentValue;
+                        });
+                });
+            });
+    },
+ 
+    _createIconHTML(icon_name) {
+        return `<span class="material-icons">${icon_name}</span>`;
+    },
+ 
+    
